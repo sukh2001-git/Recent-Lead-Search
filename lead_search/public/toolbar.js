@@ -9,7 +9,7 @@ function addSearchBar() {
     let $container = $('.page-actions').first();
     if (!$container.length) $container = $('.standard-actions').first();
     if (!$container.length) $container = $('.list-toolbar').first();
-     if (!$container.length) return;
+    if (!$container.length) return;
 
     $container.prepend(`
         <div id="custom-search-wrapper" class="frappe-control" style="display:inline-block; margin-right: 12px;">
@@ -55,12 +55,12 @@ function dynamicdays(query) {
             fieldname: "days"
         },
         callback: function(r) {
-            let days = (r.message && r.message.days) ? r.message.days : 30;
+            let days = (r.message && r.message.days) ? r.message.days : 90;
             console.log("days for search:", days);
             performSearch(query, days);
         },
         error: function() {
-            performSearch(query, 30);
+            performSearch(query, 90);
         }
     });
 }
@@ -81,7 +81,6 @@ function performSearch(query, days) {
             order_by: "creation desc"
         },
         callback: function(r) {
-            console.log("Search results:", r.message);
             $('#custom-search-btn').html('<i class="fa fa-search"></i>');
             r.message && r.message.length ? showResults(r.message, query) : 
                 frappe.msgprint({title: 'No Results', message: `No leads found matching "${query}"`, indicator: 'orange'});
